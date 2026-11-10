@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "collections": [
+    {
+      "id": "91c60058-3389-49af-9c38-db95c2bfc6c1",
+      "name": "students",
+      "requests": [
+        {
+          "id": "0833c92d-b602-42d6-9955-baf87255cd00",
+          "name": "add Student",
+          "method": "POST",
+          "url": "http://localhost:3000/student/add",
+          "query": [],
+          "headers": [],
+          "body": {
+            "mode": "form",
+            "raw": "{\n  \"name\":\"arvind\",\n  \"email\":\"arvind@gmail.com\"\n}\n",
+            "rawContentType": "text/plain",
+            "form": [
+              {
+                "id": "08db634f-85e3-4cb7-8bf8-6346d8b991ba",
+                "key": "name",
+                "value": "arvind",
+                "enabled": true
+              },
+              {
+                "id": "941bf799-1461-43c4-8d95-4afdbf14262d",
+                "key": "email",
+                "value": "arvind@gmail.com",
+                "enabled": true
+              }
+            ],
+            "multipart": []
+          },
+          "auth": {
+            "type": "none",
+            "bearer": "",
+            "basicUser": "",
+            "basicPass": "",
+            "apiKeyName": "",
+            "apiKeyValue": "",
+            "apiKeyIn": "header"
+          },
+          "assertions": [],
+          "insecureSkipVerify": false
+        },
+        {
+          "id": "d2831604-03a5-4a9b-8667-6673a4211f8a",
+          "name": "add Student copy",
+          "method": "GET",
+          "url": "http://localhost:3000/student/all",
+          "query": [],
+          "headers": [],
+          "body": {
+            "mode": "form",
+            "raw": "{\n  \"name\":\"arvind\",\n  \"email\":\"arvind@gmail.com\"\n}\n",
+            "rawContentType": "text/plain",
+            "form": [
+              {
+                "id": "b23dedc4-969b-400b-8840-f5be1a576860",
+                "key": "name",
+                "value": "arvind",
+                "enabled": true
+              },
+              {
+                "id": "9111ba18-d793-4e8a-907f-6c6fa426689c",
+                "key": "email",
+                "value": "arvind@gmail.com",
+                "enabled": true
+              }
+            ],
+            "multipart": []
+          },
+          "auth": {
+            "type": "none",
+            "bearer": "",
+            "basicUser": "",
+            "basicPass": "",
+            "apiKeyName": "",
+            "apiKeyValue": "",
+            "apiKeyIn": "header"
+          },
+          "assertions": [],
+          "insecureSkipVerify": false
+        }
+      ],
+      "folders": []
+    }
+  ]
+}
