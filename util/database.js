@@ -6,49 +6,39 @@ if (!databaseName) {
   throw new Error("MYSQL_DB_NAME must be set")
 }
 
-const connection = mysql.createConnection({
+const mysqlConfig = {
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASS
+}
+
+const connection = mysql.createPool({
+  ...mysqlConfig,
+  database: databaseName,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 })
 
-connection.connect((err) => {
-  if (err) {
-    console.error("MySQL connection failed:", err)
-    return;
+const ready = (async () => {
+  const bootstrapConnection = mysql.createConnection(mysqlConfig).promise()
+
+  try {
+    await bootstrapConnection.query("CREATE DATABASE IF NOT EXISTS ??", [databaseName])
+  } finally {
+    await bootstrapConnection.end()
   }
-  console.log("MySQL connection established")
 
-  connection.query("CREATE DATABASE IF NOT EXISTS ??", [databaseName], (err) => {
-    if (err) {
-      console.error(`Could not create database "${databaseName}":`, err)
-      return;
-    }
+  const createStudentsTable = `
+    CREATE TABLE IF NOT EXISTS students (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(20),
+      email VARCHAR(50)
+    )
+  `
 
-    connection.changeUser({ database: databaseName }, (err) => {
-      if (err) {
-        console.error(`Could not select database "${databaseName}":`, err)
-        return;
-      }
+  await connection.promise().query(createStudentsTable)
+})()
 
-      const createStudentsTable = `
-        CREATE TABLE IF NOT EXISTS students (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(20),
-          email VARCHAR(20)
-        )
-      `
-
-      connection.query(createStudentsTable, (err) => {
-        if (err) {
-          console.error(`Could not create table in "${databaseName}":`, err)
-          return;
-        }
-        console.log(`Database "${databaseName}" is ready`)
-      })
-    })
-  })
-})
-
-module.exports = { connection }
+module.exports = { connection, ready }
