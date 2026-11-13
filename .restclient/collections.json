@@ -71,6 +71,32 @@
           "insecureSkipVerify": false
         },
         {
+          "id": "d2831604-03a5-4a9b-8667-6673a4211f8a",
+          "name": "get students",
+          "method": "GET",
+          "url": "http://localhost:3000/student/all",
+          "query": [],
+          "headers": [],
+          "body": {
+            "mode": "none",
+            "raw": "",
+            "rawContentType": "text/plain",
+            "form": [],
+            "multipart": []
+          },
+          "auth": {
+            "type": "none",
+            "bearer": "",
+            "basicUser": "",
+            "basicPass": "",
+            "apiKeyName": "",
+            "apiKeyValue": "",
+            "apiKeyIn": "header"
+          },
+          "assertions": [],
+          "insecureSkipVerify": false
+        },
+        {
           "id": "0833c92d-b602-42d6-9955-baf87255cd00",
           "name": "add Student",
           "method": "POST",
@@ -85,13 +111,59 @@
               {
                 "id": "08db634f-85e3-4cb7-8bf8-6346d8b991ba",
                 "key": "name",
-                "value": " Virat Kohli",
+                "value": "Pawan Singh",
                 "enabled": true
               },
               {
                 "id": "941bf799-1461-43c4-8d95-4afdbf14262d",
                 "key": "email",
-                "value": " virat.kohli@example.com",
+                "value": "pawan.singh@example.com",
+                "enabled": true
+              }
+            ],
+            "multipart": []
+          },
+          "auth": {
+            "type": "none",
+            "bearer": "",
+            "basicUser": "",
+            "basicPass": "",
+            "apiKeyName": "",
+            "apiKeyValue": "",
+            "apiKeyIn": "header"
+          },
+          "assertions": [],
+          "insecureSkipVerify": false
+        }
+      ],
+      "folders": []
+    },
+    {
+      "id": "c2984e00-357b-4b99-b687-7429255667f8",
+      "name": "users",
+      "requests": [
+        {
+          "id": "7a9f8076-adbb-494c-9ef1-e8764220b8e8",
+          "name": "add users",
+          "method": "POST",
+          "url": "http://localhost:3000/api/v1/users",
+          "query": [],
+          "headers": [],
+          "body": {
+            "mode": "form",
+            "raw": "",
+            "rawContentType": "text/plain",
+            "form": [
+              {
+                "id": "5afa661c-63fb-4a53-9aa6-6f6ee529754f",
+                "key": "name",
+                "value": "JaiKishan",
+                "enabled": true
+              },
+              {
+                "id": "4d800003-a87b-44b3-9b29-bf367c786982",
+                "key": "email",
+                "value": "jaikishan@gmail.com",
                 "enabled": true
               }
             ],
@@ -110,10 +182,10 @@
           "insecureSkipVerify": false
         },
         {
-          "id": "d2831604-03a5-4a9b-8667-6673a4211f8a",
-          "name": "get students",
+          "id": "464843cf-2780-453d-a26b-9bc5237c7bcf",
+          "name": "get users",
           "method": "GET",
-          "url": "http://localhost:3000/student/all",
+          "url": "http://localhost:3000/api/v1/users",
           "query": [],
           "headers": [],
           "body": {
@@ -121,6 +193,103 @@
             "raw": "",
             "rawContentType": "text/plain",
             "form": [],
+            "multipart": []
+          },
+          "auth": {
+            "type": "none",
+            "bearer": "",
+            "basicUser": "",
+            "basicPass": "",
+            "apiKeyName": "",
+            "apiKeyValue": "",
+            "apiKeyIn": "header"
+          },
+          "assertions": [],
+          "insecureSkipVerify": false
+        }
+      ],
+      "folders": []
+    },
+    {
+      "id": "d7da2287-0fec-416b-97b1-0c2fe725f36e",
+      "name": "buses",
+      "requests": [
+        {
+          "id": "17964e15-6718-4b6b-8d30-615ef4ceb0f8",
+          "name": "add bus",
+          "method": "POST",
+          "url": "http://localhost:3000/api/v1/buses",
+          "query": [],
+          "headers": [],
+          "body": {
+            "mode": "form",
+            "raw": "",
+            "rawContentType": "text/plain",
+            "form": [
+              {
+                "id": "1dee978b-8710-4ac7-a067-53b79a1ebfbe",
+                "key": "busNumber",
+                "value": "UP107",
+                "enabled": true
+              },
+              {
+                "id": "548cbc1d-cb64-43f2-97d9-0093899d5514",
+                "key": "totalSeats",
+                "value": "20",
+                "enabled": true
+              },
+              {
+                "id": "c48ab3e5-b508-4dbe-9769-7b0c73d126da",
+                "key": "availableSeats",
+                "value": "20",
+                "enabled": true
+              }
+            ],
+            "multipart": []
+          },
+          "auth": {
+            "type": "none",
+            "bearer": "",
+            "basicUser": "",
+            "basicPass": "",
+            "apiKeyName": "",
+            "apiKeyValue": "",
+            "apiKeyIn": "header"
+          },
+          "assertions": [],
+          "insecureSkipVerify": false
+        },
+        {
+          "id": "0a6712cd-371f-4242-a600-a7f92d2c2a80",
+          "name": "available seats",
+          "method": "GET",
+          "url": "http://localhost:3000/api/v1/buses/available/20",
+          "query": [],
+          "headers": [],
+          "body": {
+            "mode": "none",
+            "raw": "",
+            "rawContentType": "text/plain",
+            "form": [
+              {
+                "id": "8889209d-6e52-4185-854e-52ba5c64733b",
+                "key": "busNumber",
+                "value": "UP107",
+                "enabled": true
+              },
+              {
+                "id": "50487a5a-3e37-4f21-8b4d-99cb143e94af",
+                "key": "totalSeats",
+                "value": "20",
+                "enabled": true
+              },
+              {
+                "id": "e1c0dbb6-de6b-48db-933d-5e6ec94ff899",
+                "key": "availableSeats",
+                "value": "20",
+                "enabled": true
+              }
+            ],
             "multipart": []
           },
           "auth": {

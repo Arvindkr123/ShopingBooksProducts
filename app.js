@@ -6,6 +6,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { connection, ready } = require('./util/database');
 const { studentRouter } = require('./routes/student.routes');
+const { usersRouter } = require('./routes/users.routes.js');
+const { busesRouter } = require('./routes/buses.routes.js');
 
 const app = express();
 const port = process.env.PORT;
@@ -19,6 +21,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/student", studentRouter)
+app.use("/api/v1/users", usersRouter)
+app.use("/api/v1/buses", busesRouter)
 
 ready
     .then(() => {
