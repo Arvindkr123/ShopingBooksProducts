@@ -9,15 +9,15 @@ const handleDatabaseError = (operation, error, res) => {
 }
 
 const addStudent = async (req, res) => {
-    const { name, email } = req.body || {}
-    if (!name || !email) {
-        return res.status(400).json({ message: "Name and email are required" })
+    const { name, email, age} = req.body || {}
+    if (!name || !email || !age) {
+        return res.status(400).json({ message: "Name and email or age are required" })
     }
 
     try {
         const [result] = await db.execute(
-            "INSERT INTO students (name, email) VALUES (?, ?)",
-            [name, email]
+            "INSERT INTO students (name, email, age) VALUES (?,?,?)",
+            [name, email, age]
         )
         console.info(`[DB] INSERT students succeeded (id=${result.insertId})`)
         return res.status(201).json({
@@ -38,13 +38,31 @@ const getStudent = async (req, res) => {
     }
 }
 
+const getStudentById = async (req, res) => {
+    const { id } = req.params
+    if (!isValidId(id)) {
+        return res.status(400).json({ message: "Student ID must be a positive integer" })
+    }
+
+    try {
+        const [students] = await db.execute("SELECT * FROM students WHERE id = ?", [Number(id)])
+        if (students.length === 0) {
+            return res.status(404).json({ message: "Student not found" })
+        }
+
+        return res.status(200).json(students[0])
+    } catch (error) {
+        return handleDatabaseError(`SELECT students (id=${id})`, error, res)
+    }
+}
+
 const updateStudent = async (req, res) => {
     const { id } = req.params
     if (!isValidId(id)) {
         return res.status(400).json({ message: "Student ID must be a positive integer" })
     }
 
-    const { name, email } = req.body || {}
+    const { name, email, age } = req.body || {}
     const fields = []
     const values = []
 
@@ -55,6 +73,10 @@ const updateStudent = async (req, res) => {
     if (email !== undefined) {
         fields.push("email = ?")
         values.push(email)
+    }
+    if (age !== undefined) {
+        fields.push("age = ?")
+        values.push(age)
     }
     if (fields.length === 0) {
         return res.status(400).json({ message: "Provide at least one field to update" })
@@ -107,6 +129,7 @@ const deleteStudent = async (req, res) => {
 module.exports = {
     addStudent,
     getStudent,
+    getStudentById,
     updateStudent,
     deleteStudent
 }

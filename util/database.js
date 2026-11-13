@@ -22,79 +22,16 @@ const connection = mysql.createPool({
 })
 
 const ready = (async () => {
-  const bootstrapConnection = mysql.createConnection(mysqlConfig).promise()
-
-  try {
-    await bootstrapConnection.query("CREATE DATABASE IF NOT EXISTS ??", [databaseName])
-  } finally {
-    await bootstrapConnection.end()
-  }
-
   const createStudentsTable = `
     CREATE TABLE IF NOT EXISTS students (
       id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(20),
-      email VARCHAR(50)
+      name VARCHAR(50),
+      email VARCHAR(100) Unique,
+      age int
     )
-  `
-  const creatUsersTable = `
-    CREATE TABLE IF NOT EXISTS Users (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(100) NOT NULL,
-      email VARCHAR(150) NOT NULL UNIQUE
-    );
-  `
-
-  const createBusesTable = `
-    CREATE TABLE IF NOT EXISTS Buses (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      busNumber VARCHAR(50) NOT NULL UNIQUE,
-      totalSeats INT NOT NULL,
-      availableSeats INT NOT NULL,
-      
-      CHECK (totalSeats > 0),
-      CHECK (availableSeats >= 0),
-      CHECK (availableSeats <= totalSeats)
-    );
-  `
-  const createBookingTable = `
-    CREATE TABLE IF NOT EXISTS Bookings (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      seatNumber INT NOT NULL,
-
-      userId INT NOT NULL,
-      busId INT NOT NULL,
-
-      FOREIGN KEY (userId) REFERENCES Users(id),
-      FOREIGN KEY (busId) REFERENCES Buses(id),
-
-      UNIQUE (busId, seatNumber)
-  );
-  `
-  const createPaymentTable = `
-    CREATE TABLE IF NOT EXISTS Payments (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      amountPaid DECIMAL(10, 2) NOT NULL,
-      paymentStatus ENUM(
-          'PENDING',
-          'SUCCESS',
-          'FAILED',
-          'REFUNDED'
-      ) DEFAULT 'PENDING',
-
-      bookingId INT NOT NULL UNIQUE,
-
-      FOREIGN KEY (bookingId) REFERENCES Bookings(id),
-
-      CHECK (amountPaid >= 0)
-    );
   `
   await Promise.all([
     connection.promise().query(createStudentsTable),
-    connection.promise().query(creatUsersTable),
-    connection.promise().query(createBusesTable),
-    connection.promise().query(createBookingTable),
-    connection.promise().query(createPaymentTable),
   ])
 })()
 

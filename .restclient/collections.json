@@ -6,10 +6,10 @@
       "name": "students",
       "requests": [
         {
-          "id": "64202b5e-b85b-48e3-b9c0-e6b3de3dad96",
-          "name": "update student",
-          "method": "PUT",
-          "url": "http://localhost:3000/student/1",
+          "id": "0833c92d-b602-42d6-9955-baf87255cd00",
+          "name": "add Student",
+          "method": "POST",
+          "url": "http://localhost:3000/students",
           "query": [],
           "headers": [],
           "body": {
@@ -18,15 +18,21 @@
             "rawContentType": "text/plain",
             "form": [
               {
-                "id": "181539ca-6144-49f6-bf0e-2a8134b96c08",
+                "id": "08db634f-85e3-4cb7-8bf8-6346d8b991ba",
                 "key": "name",
-                "value": "ArvindKumar",
+                "value": "Virat Kholi",
                 "enabled": true
               },
               {
-                "id": "ff09f1a9-4afa-4f6a-8c79-44ed279f7067",
+                "id": "941bf799-1461-43c4-8d95-4afdbf14262d",
                 "key": "email",
-                "value": "arvindk@gmail.com",
+                "value": "virat.kholi@example.com",
+                "enabled": true
+              },
+              {
+                "id": "7c33e952-cf30-48c8-935a-4d74615cf1bd",
+                "key": "age",
+                "value": "35",
                 "enabled": true
               }
             ],
@@ -45,17 +51,36 @@
           "insecureSkipVerify": false
         },
         {
-          "id": "522ae4fc-deda-4e18-a005-c0acf748ae3e",
-          "name": "delete student",
-          "method": "DELETE",
-          "url": "http://localhost:3000/student/1",
+          "id": "64202b5e-b85b-48e3-b9c0-e6b3de3dad96",
+          "name": "update student",
+          "method": "PUT",
+          "url": "http://localhost:3000/students/6",
           "query": [],
           "headers": [],
           "body": {
-            "mode": "none",
+            "mode": "form",
             "raw": "{\n  \"name\":\"arvind\",\n  \"email\":\"arvind@gmail.com\"\n}\n",
             "rawContentType": "text/plain",
-            "form": [],
+            "form": [
+              {
+                "id": "181539ca-6144-49f6-bf0e-2a8134b96c08",
+                "key": "name",
+                "value": "Captain Cool",
+                "enabled": true
+              },
+              {
+                "id": "ff09f1a9-4afa-4f6a-8c79-44ed279f7067",
+                "key": "email",
+                "value": "captaincool@example.com",
+                "enabled": true
+              },
+              {
+                "id": "176840cc-6f0d-47b0-bbbf-821393426a25",
+                "key": "age",
+                "value": "36",
+                "enabled": true
+              }
+            ],
             "multipart": []
           },
           "auth": {
@@ -74,7 +99,7 @@
           "id": "d2831604-03a5-4a9b-8667-6673a4211f8a",
           "name": "get students",
           "method": "GET",
-          "url": "http://localhost:3000/student/all",
+          "url": "http://localhost:3000/students",
           "query": [],
           "headers": [],
           "body": {
@@ -97,30 +122,17 @@
           "insecureSkipVerify": false
         },
         {
-          "id": "0833c92d-b602-42d6-9955-baf87255cd00",
-          "name": "add Student",
-          "method": "POST",
-          "url": "http://localhost:3000/student/add",
+          "id": "522ae4fc-deda-4e18-a005-c0acf748ae3e",
+          "name": "delete student",
+          "method": "DELETE",
+          "url": "http://localhost:3000/students/8",
           "query": [],
           "headers": [],
           "body": {
-            "mode": "form",
+            "mode": "none",
             "raw": "{\n  \"name\":\"arvind\",\n  \"email\":\"arvind@gmail.com\"\n}\n",
             "rawContentType": "text/plain",
-            "form": [
-              {
-                "id": "08db634f-85e3-4cb7-8bf8-6346d8b991ba",
-                "key": "name",
-                "value": "Pawan Singh",
-                "enabled": true
-              },
-              {
-                "id": "941bf799-1461-43c4-8d95-4afdbf14262d",
-                "key": "email",
-                "value": "pawan.singh@example.com",
-                "enabled": true
-              }
-            ],
+            "form": [],
             "multipart": []
           },
           "auth": {

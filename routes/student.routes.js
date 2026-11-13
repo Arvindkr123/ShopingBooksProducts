@@ -1,9 +1,10 @@
-const { addStudent, getStudent, updateStudent, deleteStudent } = require("../controllers/student.controllers");
+const { addStudent, getStudent, getStudentById, updateStudent, deleteStudent } = require("../controllers/student.controllers");
 
 const studentRouter = require("express").Router();
 
-studentRouter.post("/add", addStudent)
-studentRouter.get("/all", getStudent)
+studentRouter.post("/", addStudent)
+studentRouter.get("/", getStudent)
+studentRouter.get("/:id", getStudentById)
 studentRouter.put("/:id", updateStudent)
 studentRouter.delete("/:id", deleteStudent)
 
