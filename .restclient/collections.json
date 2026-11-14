@@ -96,15 +96,15 @@
           "insecureSkipVerify": false
         },
         {
-          "id": "d2831604-03a5-4a9b-8667-6673a4211f8a",
-          "name": "get students",
-          "method": "GET",
-          "url": "http://localhost:3000/students",
+          "id": "522ae4fc-deda-4e18-a005-c0acf748ae3e",
+          "name": "delete student",
+          "method": "DELETE",
+          "url": "http://localhost:3000/students/8",
           "query": [],
           "headers": [],
           "body": {
             "mode": "none",
-            "raw": "",
+            "raw": "{\n  \"name\":\"arvind\",\n  \"email\":\"arvind@gmail.com\"\n}\n",
             "rawContentType": "text/plain",
             "form": [],
             "multipart": []
@@ -122,15 +122,15 @@
           "insecureSkipVerify": false
         },
         {
-          "id": "522ae4fc-deda-4e18-a005-c0acf748ae3e",
-          "name": "delete student",
-          "method": "DELETE",
-          "url": "http://localhost:3000/students/8",
+          "id": "d2831604-03a5-4a9b-8667-6673a4211f8a",
+          "name": "get students",
+          "method": "GET",
+          "url": "http://localhost:3000/students",
           "query": [],
           "headers": [],
           "body": {
             "mode": "none",
-            "raw": "{\n  \"name\":\"arvind\",\n  \"email\":\"arvind@gmail.com\"\n}\n",
+            "raw": "",
             "rawContentType": "text/plain",
             "form": [],
             "multipart": []

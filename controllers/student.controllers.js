@@ -1,5 +1,4 @@
-const { connection } = require("../util/database")
-const db = connection.promise()
+const { Student } = require("../models/student.models")
 
 const isValidId = (id) => /^\d+$/.test(id) && Number.isSafeInteger(Number(id)) && Number(id) > 0
 
@@ -9,19 +8,16 @@ const handleDatabaseError = (operation, error, res) => {
 }
 
 const addStudent = async (req, res) => {
-    const { name, email, age} = req.body || {}
-    if (!name || !email || !age) {
-        return res.status(400).json({ message: "Name and email or age are required" })
+    const { name, email, age } = req.body || {}
+    if (!name || !email || age === undefined || age === null) {
+        return res.status(400).json({ message: "Name, email, and age are required" })
     }
 
     try {
-        const [result] = await db.execute(
-            "INSERT INTO students (name, email, age) VALUES (?,?,?)",
-            [name, email, age]
-        )
-        console.info(`[DB] INSERT students succeeded (id=${result.insertId})`)
+        const student = await Student.create({ name, email, age })
+        console.info(`[DB] INSERT students succeeded (id=${student.id})`)
         return res.status(201).json({
-            id: result.insertId,
+            id: student.id,
             message: `Student added successfully with ${name}`
         })
     } catch (error) {
@@ -31,7 +27,7 @@ const addStudent = async (req, res) => {
 
 const getStudent = async (req, res) => {
     try {
-        const [students] = await db.query("SELECT * FROM students")
+        const students = await Student.findAll()
         return res.status(200).json(students)
     } catch (error) {
         return handleDatabaseError("SELECT students", error, res)
@@ -45,12 +41,12 @@ const getStudentById = async (req, res) => {
     }
 
     try {
-        const [students] = await db.execute("SELECT * FROM students WHERE id = ?", [Number(id)])
-        if (students.length === 0) {
+        const student = await Student.findByPk(Number(id))
+        if (!student) {
             return res.status(404).json({ message: "Student not found" })
         }
 
-        return res.status(200).json(students[0])
+        return res.status(200).json(student)
     } catch (error) {
         return handleDatabaseError(`SELECT students (id=${id})`, error, res)
     }
@@ -62,44 +58,27 @@ const updateStudent = async (req, res) => {
         return res.status(400).json({ message: "Student ID must be a positive integer" })
     }
 
-    const { name, email, age } = req.body || {}
-    const fields = []
-    const values = []
+    const body = req.body || {}
+    const updates = {}
+    for (const field of ["name", "email", "age"]) {
+        if (body[field] !== undefined) {
+            updates[field] = body[field]
+        }
+    }
 
-    if (name !== undefined) {
-        fields.push("name = ?")
-        values.push(name)
-    }
-    if (email !== undefined) {
-        fields.push("email = ?")
-        values.push(email)
-    }
-    if (age !== undefined) {
-        fields.push("age = ?")
-        values.push(age)
-    }
-    if (fields.length === 0) {
+    if (Object.keys(updates).length === 0) {
         return res.status(400).json({ message: "Provide at least one field to update" })
     }
 
-    values.push(Number(id))
     try {
-        const [result] = await db.execute(
-            `UPDATE students SET ${fields.join(", ")} WHERE id = ?`,
-            values
-        )
-
-        if (result.affectedRows === 0) {
-            const [students] = await db.execute("SELECT id FROM students WHERE id = ?", [Number(id)])
-            if (students.length === 0) {
-                console.info(`[DB] UPDATE students found no student (id=${id})`)
-                return res.status(404).json({ message: "Student not found" })
-            }
-            console.info(`[DB] UPDATE students made no changes (id=${id})`)
-            return res.status(200).json({ message: "Student already has the requested values" })
+        const student = await Student.findByPk(Number(id))
+        if (!student) {
+            console.info(`[DB] UPDATE students found no student (id=${id})`)
+            return res.status(404).json({ message: "Student not found" })
         }
 
-        console.info(`[DB] UPDATE students succeeded (id=${id}, fields=${fields.length})`)
+        await student.update(updates)
+        console.info(`[DB] UPDATE students succeeded (id=${id}, fields=${Object.keys(updates).length})`)
         return res.status(200).json({ message: "Student updated successfully" })
     } catch (error) {
         return handleDatabaseError(`UPDATE students (id=${id})`, error, res)
@@ -113,8 +92,8 @@ const deleteStudent = async (req, res) => {
     }
 
     try {
-        const [result] = await db.execute("DELETE FROM students WHERE id = ?", [Number(id)])
-        if (result.affectedRows === 0) {
+        const deletedCount = await Student.destroy({ where: { id: Number(id) } })
+        if (deletedCount === 0) {
             console.info(`[DB] DELETE students found no student (id=${id})`)
             return res.status(404).json({ message: "Student not found" })
         }
